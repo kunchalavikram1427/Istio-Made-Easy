@@ -17,12 +17,6 @@ Key features of Istio include:
 
 Istio achieves these capabilities by deploying sidecar proxies (usually Envoy) alongside each service in the mesh. These proxies intercept and manage all network traffic between services, applying the desired policies and configurations.
 
-## Links
-- Architecture v1.4: https://istio.io/v1.4/docs/ops/deployment/architecture
-- Distributed tracing: https://istio.io/latest/docs/tasks/observability/distributed-tracing/overview/
-- Gateway API: https://gateway-api.sigs.k8s.io/
-- Ambient mode: https://www.cncf.io/blog/2024/03/19/istio-announces-the-beta-release-of-ambient-mode/
-
 ## Installation and setup
 
 ### Cluster Setup
@@ -90,36 +84,68 @@ Validate the application
 ```
 kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
 ```
-
-### Istio Profiles
+### Create a Kubernetes Gateway for the Bookinfo application:
+```sh
+kubectl apply -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml
+kubectl get gateway
 ```
+### Access the application
+Open your browser and navigate to http://localhost:80/productpage to view the Bookinfo application.
+
+### Deploy Kiali, Jaeger
+```sh
+kubectl apply -f samples/addons
+kubectl rollout status deployment/kiali -n istio-system
+```
+Access the Kiali dashboard.
+```sh
+istioctl dashboard kiali
+```
+In the left navigation menu, select Graph and in the Namespace drop down, select default.
+To see trace data, you must send requests to your service. The number of requests depends on Istio’s sampling rate and can be configured using the Telemetry API. With the default sampling rate of 1%, you need to send at least 100 requests before the first trace is visible. To send 100 requests to the productpage service, use the following command:
+```sh
+for i in $(seq 1 100); do curl -s -o /dev/null "http://$GATEWAY_URL/productpage"; done
+```
+The Kiali dashboard shows an overview of your mesh with the relationships between the services in the Bookinfo sample application. It also provides filters to visualize the traffic flow.
+
+## Working with Istio Profiles
+Get profiles list
+```sh
 istioctl profile list
+```
+Extract configurations that can run only with istioctl
+```sh
 istioctl profile dump default > default_profile.yml 
 kubectl apply -f default_profile.yml
 istioctl apply -f default_profile.yml
 ```
+Install a specific profiles. Default is `default` profiles
 ```sh
 istioctl install 
 istioctl install --set profile=demo -y
 istioctl verify-install
 ```
+Extract configurations that can run with kubectl
 ```sh
 istioctl manifest generate --set profile=demo > istio-installation.yaml
 kubectl apply -f istio-installation.yaml
-istioctl verify-install -f istio-installation.yaml – Verify installation
-kubectl get all -n istio-system – Check deployed objects
-istioctl x uninstall --purge
 ```
+Verify  if all objects/resources are deployed
+```sh
+istioctl verify-install -f istio-installation.yaml
+kubectl get all -n istio-system
+```
+Analyze the setup
 ```sh
 istioctl analyze
 ```
-
-### Deploy Kiali, Jaeger
-
-### Enable Sidecar Injection
+Uninstall
 ```sh
-Label Namespace: kubectl label namespace default istio-injection=enabled
-
-kubectl label namespace default istio-injection-
-kubectl label namespace default istio-injection=disabled
+istioctl uninstall --purge
 ```
+## References
+- Architecture v1.4: https://istio.io/v1.4/docs/ops/deployment/architecture
+- Distributed tracing: https://istio.io/latest/docs/tasks/observability/distributed-tracing/overview/
+- Gateway API: https://gateway-api.sigs.k8s.io/
+- Sidecar mode: https://istio.io/latest/docs/setup/getting-started/
+- Ambient mode: https://www.cncf.io/blog/2024/03/19/istio-announces-the-beta-release-of-ambient-mode/
