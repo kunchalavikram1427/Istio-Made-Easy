@@ -30,6 +30,16 @@ Start minikube cluster
 ```sh
 minikube start --driver=docker --memory=4096 --cpus=4
 ```
+### (Optional) Install Metrics server and Skooner dashboard
+Install metrics server and Skooner dashboard
+```sh
+kubectl apply -f kubernetes-dashboard/metrics-server.yaml
+kubectl apply -f kubernetes-dashboard/skooner_dashboard.yml
+```
+Get service account token to access skooner dashboard
+```sh
+kubectl create token skooner-sa -n default
+```
 
 ### Install Istio
 Istio can be downloaded from release page or via `curl` commands
@@ -37,7 +47,6 @@ Istio can be downloaded from release page or via `curl` commands
 - https://istio.io/latest/docs/setup/getting-started/#download
 
 ### Test setup
-
 Install Istio demo profile without gateways and enable sidecar injection
 ```sh
 istioctl install -f samples/bookinfo/demo-profile-no-gateways.yaml -y
