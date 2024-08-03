@@ -91,8 +91,10 @@ kubectl get gateway
 ```
 ### Access the application
 Open your browser and navigate to http://localhost:80/productpage to view the Bookinfo application.
+If you refresh the page, you should see the book reviews and ratings changing as the requests are distributed across the different versions of the reviews service.
 
-### Deploy Kiali, Jaeger
+### Deploy Kiali, Prometheus, Grafana, and Jaeger dashboards
+Istio integrates with several different telemetry applications. These can help you gain an understanding of the structure of your service mesh, display the topology of the mesh, and analyze the health of your mesh.
 ```sh
 kubectl apply -f samples/addons
 kubectl rollout status deployment/kiali -n istio-system
