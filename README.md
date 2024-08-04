@@ -1,4 +1,5 @@
 # Istio
+Follow along [YouTube series](https://www.youtube.com/playlist?list=PL8klaCXyIuQ5wFRbjOZwxeLq2_wJqjani)
 
 ## Introduction
 Istio is an open-source service mesh platform that provides a way to manage and secure communication between microservices in a distributed application. It acts as a layer on top of the network infrastructure, offering advanced traffic management, security, and observability features without requiring changes to the application code.
