@@ -110,6 +110,19 @@ for i in $(seq 1 100); do curl -s -o /dev/null "http://$GATEWAY_URL/productpage"
 ```
 The Kiali dashboard shows an overview of your mesh with the relationships between the services in the Bookinfo sample application. It also provides filters to visualize the traffic flow.
 
+### Uninstall BookInfo application
+To delete the Bookinfo sample application, run below shell script and also remove the addons
+```sh
+samples/bookinfo/platform/kube/cleanup.sh
+kubectl delete -f samples/addons
+```
+The Istio uninstall deletes the RBAC permissions and all resources hierarchically under the istio-system namespace. It is safe to ignore errors for non-existent resources because they may have been deleted hierarchically.
+```sh
+istioctl uninstall -y --purge
+kubectl delete namespace istio-system
+kubectl label namespace default istio-injection-
+```
+
 ## Working with Istio Profiles
 Get profiles list
 ```sh
@@ -151,3 +164,4 @@ istioctl uninstall --purge
 - Gateway API: https://gateway-api.sigs.k8s.io/
 - Sidecar mode: https://istio.io/latest/docs/setup/getting-started/
 - Ambient mode: https://www.cncf.io/blog/2024/03/19/istio-announces-the-beta-release-of-ambient-mode/
+- BookInfo app: https://istio.io/latest/docs/examples/bookinfo/
