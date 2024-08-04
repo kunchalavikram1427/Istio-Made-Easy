@@ -18,6 +18,9 @@ Key features of Istio include:
 
 Istio achieves these capabilities by deploying sidecar proxies (usually Envoy) alongside each service in the mesh. These proxies intercept and manage all network traffic between services, applying the desired policies and configurations.
 
+### Architecture
+
+![istio architecture](./images/istio_architecture.png)
 ## Installation and setup
 
 ### Cluster Setup
