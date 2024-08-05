@@ -163,10 +163,13 @@ Uninstall
 ```sh
 istioctl uninstall --purge
 ```
+
 ## References
 - Architecture v1.4: https://istio.io/v1.4/docs/ops/deployment/architecture
+- Architecture(latest): https://istio.io/latest/docs/ops/deployment/architecture/
 - Distributed tracing: https://istio.io/latest/docs/tasks/observability/distributed-tracing/overview/
 - Gateway API: https://gateway-api.sigs.k8s.io/
 - Sidecar mode: https://istio.io/latest/docs/setup/getting-started/
 - Ambient mode: https://www.cncf.io/blog/2024/03/19/istio-announces-the-beta-release-of-ambient-mode/
 - BookInfo app: https://istio.io/latest/docs/examples/bookinfo/
+- Gateway API tasks: https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api/
