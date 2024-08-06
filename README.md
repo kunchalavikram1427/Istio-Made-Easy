@@ -169,6 +169,7 @@ istioctl uninstall --purge
 - Architecture(latest): https://istio.io/latest/docs/ops/deployment/architecture/
 - Distributed tracing: https://istio.io/latest/docs/tasks/observability/distributed-tracing/overview/
 - Gateway API: https://gateway-api.sigs.k8s.io/
+- Gateway API implementations: https://gateway-api.sigs.k8s.io/implementations
 - Sidecar mode: https://istio.io/latest/docs/setup/getting-started/
 - Ambient mode: https://www.cncf.io/blog/2024/03/19/istio-announces-the-beta-release-of-ambient-mode/
 - BookInfo app: https://istio.io/latest/docs/examples/bookinfo/
