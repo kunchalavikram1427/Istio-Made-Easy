@@ -95,9 +95,16 @@ Validate the application
 kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
 ```
 ### Create a Kubernetes Gateway for the Bookinfo application:
+Check gateway class
+```sh
+kubectl get gatewayclass
+kubectl describe gatewayclass/istio
+```
+Install gateway for BookInfo app
 ```sh
 kubectl apply -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml
-kubectl get gateway
+kubectl get gateways
+kubectl get gateways/bookinfo-gateway -o yaml
 ```
 ### Access the application
 Open your browser and navigate to http://localhost:80/productpage to view the Bookinfo application.
