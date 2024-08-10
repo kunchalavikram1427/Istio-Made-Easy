@@ -51,6 +51,11 @@ Install Istio demo profile without gateways and enable sidecar injection
 istioctl install -f samples/bookinfo/demo-profile-no-gateways.yaml -y
 kubectl label namespace default istio-injection=enabled
 ```
+Verify Istio installation status
+```sh
+istioctl verify-install
+istioctl analyze
+```
 Install the Kubernetes [Gateway API](https://gateway-api.sigs.k8s.io/) CRDs
 ```sh
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
