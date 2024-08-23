@@ -136,18 +136,22 @@ Access the jaeger dashboard.
 istioctl dashboard jaeger
 ```
 
-### Uninstall BookInfo application
-To delete the Bookinfo sample application, run below shell script and also remove the addons
+### Uninstall Gateway API
 ```sh
-samples/bookinfo/platform/kube/cleanup.sh
-kubectl delete -f samples/addons
+kubectl delete -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml
 ```
-The Istio uninstall deletes the RBAC permissions and all resources hierarchically under the istio-system namespace. It is safe to ignore errors for non-existent resources because they may have been deleted hierarchically.
+
+## Traffic Management using istio APIs 
+We will be using istio API for this demo. Install Istio Gateways
 ```sh
-istioctl uninstall -y --purge
-kubectl delete namespace istio-system
-kubectl label namespace default istio-injection-
+
+istioctl install -f samples/bookinfo/demo-profile-with-gateways.yaml -y
+kubectl get po,svc -n istio-system
 ```
+### Request routing
+https://istio.io/latest/docs/examples/bookinfo/
+
+
 
 ## Working with Istio Profiles
 Get profiles list
@@ -182,7 +186,9 @@ istioctl analyze
 ```
 Uninstall
 ```sh
-istioctl uninstall --purge
+istioctl uninstall -y --purge
+kubectl delete namespace istio-system
+kubectl label namespace default istio-injection-
 ```
 
 ## References
@@ -199,3 +205,4 @@ istioctl uninstall --purge
 - Virtual services: https://istio.io/latest/docs/concepts/traffic-management/#virtual-services
 - Destination rules:https://istio.io/latest/docs/concepts/traffic-management/#destination-rules
 - DestinationRule Load balancing options: https://istio.io/latest/docs/concepts/traffic-management/#load-balancing-options
+- Request routing: https://istio.io/latest/docs/tasks/traffic-management/request-routing/
