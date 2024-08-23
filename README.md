@@ -144,14 +144,44 @@ kubectl delete -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml
 ## Traffic Management using istio APIs 
 We will be using istio API for this demo. Install Istio Gateways
 ```sh
-
 istioctl install -f samples/bookinfo/demo-profile-with-gateways.yaml -y
 kubectl get po,svc -n istio-system
 ```
 ### Request routing
-https://istio.io/latest/docs/examples/bookinfo/
+- https://istio.io/latest/docs/examples/bookinfo/
 
+Install Ingress Gateway to access the application.
 
+The configurations for `Gateway` and `VirtualService` dynamically configures the Istio Ingress Gateway. The `Gateway` and `VirtualService` resources are custom resource definitions (CRDs) in Kubernetes. These are high-level abstractions that define how traffic should be managed at the ingress and service levels.
+When you apply a `Gateway` or `VirtualService` resource to your Kubernetes cluster, Istio's control plane (specifically the Istiod component) picks up these configurations.Istiod then translates these configurations into low-level Envoy configurations that are pushed to the Istio Ingress Gateway (and other Envoy proxies in the mesh).
+The Istio Ingress Gateway itself runs an Envoy proxy. It does not have a static config file where you manually apply these settings. Instead, it receives its configuration dynamically from Istiod. The `Gateway` resource defines which ports the Ingress Gateway should listen on and which hostnames it should handle.
+The `VirtualService` resource defines the routing rules for the incoming traffic, specifying which services within the mesh should handle requests based on path, headers, etc.
+
+```sh
+kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+kubectl get gateway.networking.istio.io
+Kubectl get vs
+```
+#### Route all traffic to v1 of each microservice
+```sh
+kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
+kubectl apply -f samples/bookinfo/networking/virtual-service-all-v1.yaml
+kubectl get virtualservices -o yaml
+```
+
+#### Route all traffic to v3 of reviews microservice
+```sh
+kubectl delete -f samples/bookinfo/networking/virtual-service-all-v1.yaml
+kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
+kubectl get virtualservices -o yaml
+```
+
+#### Route 80% to v1 and 20% to v2 of reviews microservice
+```sh
+kubectl delete -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
+kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-80-20.yaml
+kubectl get virtualservices -o yaml
+```
 
 ## Working with Istio Profiles
 Get profiles list
