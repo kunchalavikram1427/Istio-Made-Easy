@@ -34,6 +34,7 @@ Install metrics server and Skooner dashboard
 kubectl apply -f kubernetes-dashboard/metrics-server.yaml
 kubectl apply -f kubernetes-dashboard/skooner_dashboard.yml
 ```
+Access [Skooner dashboard](http://localhost:31000)
 Get service account token to access skooner dashboard
 ```sh
 kubectl create token skooner-sa -n default
@@ -124,7 +125,16 @@ To see trace data, you must send requests to your service. The number of request
 ```sh
 for i in $(seq 1 100); do curl -s -o /dev/null "http://$GATEWAY_URL/productpage"; done
 ```
+or
+```sh
+while true; do curl -s http://localhost:80/productpage > /dev/null; sleep 0.5; done
+```
 The Kiali dashboard shows an overview of your mesh with the relationships between the services in the Bookinfo sample application. It also provides filters to visualize the traffic flow.
+
+Access the jaeger dashboard.
+```sh
+istioctl dashboard jaeger
+```
 
 ### Uninstall BookInfo application
 To delete the Bookinfo sample application, run below shell script and also remove the addons
@@ -185,3 +195,7 @@ istioctl uninstall --purge
 - Ambient mode: https://www.cncf.io/blog/2024/03/19/istio-announces-the-beta-release-of-ambient-mode/
 - BookInfo app: https://istio.io/latest/docs/examples/bookinfo/
 - Gateway API tasks: https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api/
+- Traffic management: https://istio.io/latest/docs/concepts/traffic-management/
+- Virtual services: https://istio.io/latest/docs/concepts/traffic-management/#virtual-services
+- Destination rules:https://istio.io/latest/docs/concepts/traffic-management/#destination-rules
+- DestinationRule Load balancing options: https://istio.io/latest/docs/concepts/traffic-management/#load-balancing-options
