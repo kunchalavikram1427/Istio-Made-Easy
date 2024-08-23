@@ -182,6 +182,14 @@ kubectl delete -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
 kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-80-20.yaml
 kubectl get virtualservices -o yaml
 ```
+#### Route based on user identity
+On the /productpage of the Bookinfo app, log in as user jason.
+Refresh the browser. What do you see? The star ratings appear next to each review.
+```sh
+kubectl delete -f samples/bookinfo/networking/virtual-service-reviews-80-20.yaml
+kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml
+```
+
 
 ## Working with Istio Profiles
 Get profiles list
