@@ -189,8 +189,6 @@ Refresh the browser. What do you see? The star ratings appear next to each revie
 kubectl delete -f samples/bookinfo/networking/virtual-service-reviews-80-20.yaml
 kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml
 ```
-
-
 ## Working with Istio Profiles
 Get profiles list
 ```sh
@@ -244,3 +242,5 @@ kubectl label namespace default istio-injection-
 - Destination rules:https://istio.io/latest/docs/concepts/traffic-management/#destination-rules
 - DestinationRule Load balancing options: https://istio.io/latest/docs/concepts/traffic-management/#load-balancing-options
 - Request routing: https://istio.io/latest/docs/tasks/traffic-management/request-routing/
+- HTTP Match: https://istio.io/latest/docs/concepts/traffic-management/#virtual-service-example
+- ConsistentHashLB: https://istio.io/latest/docs/reference/config/networking/destination-rule/#LoadBalancerSettings-ConsistentHashLB
