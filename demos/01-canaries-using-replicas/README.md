@@ -1,5 +1,5 @@
 # Canaries with replicas
-Response model of `StudentInfo App`
+Response model of `StudentInfo` application
 ```json
 {
     "data": [
