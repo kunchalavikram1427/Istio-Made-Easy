@@ -96,7 +96,7 @@ spec:
   selector:
     matchLabels:
       app: photo
-  replicas: 9
+  replicas: 4
   template: 
     metadata:
       labels:

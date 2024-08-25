@@ -91,7 +91,7 @@ kubectl apply -f deployments-no-istio-canaries.yaml
 ```
 Adjust the replicas
 ```sh
-kubectl scale deploy/photo-v1 --replicas=8
+kubectl scale deploy/photo-v1 --replicas=3
 kubectl scale deploy/photo-v2 --replicas=2
 ```
 Send traffic
